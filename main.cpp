@@ -11,9 +11,13 @@
 using namespace std;
 
 int mapFile();
+int parse_code();
+
 
 int main()
 {
-	mapFile();
+	mapFile(); //for testing
+	parse_code(); //for testing
+
 
 }
