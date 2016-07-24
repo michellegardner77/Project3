@@ -1,0 +1,93 @@
+
+#include <fstream>
+#include <cctype>
+#include <string>
+#include <iostream>
+#include <map>
+#include <except>
+
+
+using namespace std;
+
+// ** follow's bpeterman's code on github ** 
+// ** Along with Kuhail's slides **
+
+// Declare tree
+tree<string> morse_tree;
+
+//method to read in from a file and assemble the tree
+void bulid_Tree(); 
+
+// translates code
+void decoding(string d);
+
+// translates code
+void encoding(string e);
+
+temaplate<typename T>
+class Tree {
+public: 
+    //tree node structure
+    struct tree_node {
+        int index;
+        string alpha;
+        string morse_encode;
+        string morse_overlay;  // check on this later
+
+        tree_node *left, *right; //child pointers
+        tree_node(int i, string a, string m, tree_node *l, tree_node *r: index(i), alpha(a), encode};
+
+        //root "head" pointer for entire tree
+        tree_node *root;
+
+    // default constructor
+    tree(): root(NULL) {}
+
+    // constructor that creates a root node
+    tree(int i, string a, string e, string m) {
+        root = new tree_node(i, a, e, m, NULL, NULL);
+        }
+
+    // destructor, delete all nodes incase spys find out the code
+    ~tree() {}
+
+    bool is_null() const;
+
+private:
+    void insert(tree_node* r, int index, alpha, morse_encode, morse_overlay)
+        if ( r -> index == index)
+            return;
+        if (r->index > index)
+        {
+            if(r->left == NULL)
+            {
+                r->left = new tree_node(index, alpha, morse_encode, morse_overlay, NULL, NULL);
+            }
+            else 
+            {
+                insert(r->left, index, morse_encode, morse_overlay);
+        }
+        else
+        {
+            if(r->right == NULL)
+            {
+                r-> right = new tree_node(index, alpha, morse_encode, morse_overlay, NULL, NULL);
+            }
+            else
+            {
+                insert(r->right, index, alpha, morse_encode, morse_overlay);
+            }
+        }
+        
+        
+    //wraper for recurseive tree insert method
+    void insert(int index, string alpha, string morse_encode, string morse_overlay) {
+        if (root==NULL)
+        {
+            root = new tree_node(index, alpha, morse_encode, morse_overlay, NULL, NULL);
+        }
+        else
+        {
+            insert(root, index, alpha, morse_encode, morse_overlay);
+        }
+}
