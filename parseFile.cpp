@@ -55,9 +55,9 @@ int parse_code()
 			for (unsigned i = 0; i < code.length(); i++)
 			{
 				if (code[i] == '.') {
-					cout << "left" << endl;
+					cout << letter <<" : left" << endl;
 				}else
-						cout << "right" << endl;
+						cout << letter << " : right" << endl;
 					
 			}
 
