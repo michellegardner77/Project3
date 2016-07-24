@@ -34,3 +34,37 @@ int mapFile() {
 	}
 
 }
+//method to iterate through the morse code from the tet file and determine left or right
+int parse_code()
+{
+	map <char, string> codeKeys;
+	map<char, string> ::iterator itr;
+
+	string code;
+	char letter;
+	ifstream reader("morse.txt"); // input file stream reader to read the characters char letter
+	if (!reader) {
+		cout << "Error opening file: " << endl;
+		return -1; //signals error
+	}
+	else {
+		while (reader >> letter >> code)
+		{
+			codeKeys[letter] = code;
+
+			for (unsigned i = 0; i < code.length(); i++)
+			{
+				if (code[i] == '.') {
+					cout << "left" << endl;
+				}else
+						cout << "right" << endl;
+					
+			}
+
+		}
+		cout << endl;
+	}
+
+	reader.close();
+
+}
