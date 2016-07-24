@@ -12,12 +12,16 @@ using namespace std;
 
 int mapFile();
 int parse_code();
+int decode_string(string message);
 
 
 int main()
 {
+	
 	mapFile(); //for testing
 	parse_code(); //for testing
+	
+	decode_string("hello world");//decodes the entered string from the map for quick reference
 
 
 }
