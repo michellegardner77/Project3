@@ -69,7 +69,7 @@ int parse_code()
 }
 
 //encodes string into morse code using the the map created from text file.
-int decode_string(string message)
+int encode_string(string message)
 {
 	map <char, string> codeKeys;
 	map<char, string> ::iterator itr;
