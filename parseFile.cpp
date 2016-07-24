@@ -25,16 +25,15 @@ int mapFile() {
 
 	reader.close();
 
-
+	//prints the map in the same format as text file
 	for (itr = codeKeys.begin(); itr != codeKeys.end(); itr++)
 	{
 		cout << itr->first << itr->second;
 		cout << endl;
-
 	}
 
 }
-//method to iterate through the morse code from the tet file and determine left or right
+//method to iterate through the morse code from the text file and determine left or right
 int parse_code()
 {
 	map <char, string> codeKeys;
@@ -66,5 +65,48 @@ int parse_code()
 	}
 
 	reader.close();
+
+}
+
+//encodes string into morse code using the the map created from text file.
+int decode_string(string message)
+{
+	map <char, string> codeKeys;
+	map<char, string> ::iterator itr;
+
+	string code;
+	char letter;
+
+	ifstream reader("morse.txt"); // input file stream reader to read the characters char letter
+	if (!reader) {
+		cout << "Error opening file: " << endl;
+		return -1; //signals error
+	}
+	else {
+		while (reader >> letter >> code)
+		{
+			codeKeys[letter] = code;
+			
+		}
+		cout << endl;
+	}
+
+	reader.close();
+	
+	
+	cout << "The encoded message <" << message << "> is: " << endl << endl;
+	for (unsigned i = 0; i < message.length(); i++)
+	{
+		{
+			for (itr = codeKeys.begin(); itr != codeKeys.end(); itr++)
+			if (message[i] == itr->first)
+			{
+				cout << itr->second << "  ";
+				
+			}
+
+		}
+	}
+		cout << endl << endl;
 
 }
