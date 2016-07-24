@@ -12,7 +12,7 @@ using namespace std;
 
 int mapFile();
 int parse_code();
-int encode_string(string message);
+void encode_string(string message);
 
 
 int main()
