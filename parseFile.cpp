@@ -69,30 +69,8 @@ int parse_code()
 }
 
 //encodes string into morse code using the the map created from text file.
-int encode_string(string message)
+void encode_string(string message)
 {
-	map <char, string> codeKeys;
-	map<char, string> ::iterator itr;
-
-	string code;
-	char letter;
-
-	ifstream reader("morse.txt"); // input file stream reader to read the characters char letter
-	if (!reader) {
-		cout << "Error opening file: " << endl;
-		return -1; //signals error
-	}
-	else {
-		while (reader >> letter >> code)
-		{
-			codeKeys[letter] = code;
-			
-		}
-		cout << endl;
-	}
-
-	reader.close();
-	
 	
 	cout << "The encoded message <" << message << "> is: " << endl << endl;
 	for (unsigned i = 0; i < message.length(); i++)
