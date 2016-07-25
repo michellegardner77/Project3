@@ -23,6 +23,7 @@ int mapFile() {
 		{
 			codeKeys[letter] = code;
 		}
+		cout << endl;
 	}
 
 	reader.close();
@@ -61,7 +62,7 @@ int parse_code()
 			}
 
 		}
-		cout << endl;
+		cout << endl << endl;;
 	}
 
 	reader.close();
