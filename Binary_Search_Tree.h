@@ -1,15 +1,15 @@
 #ifndef BINARY_SEARCH_TREE_H
 #define BINARY_SEARCH_TREE_H
 
-#include "Binary_Tree.h"
+#include "MorseTree.h"
 
 
 template<typename Item_Type>
-class Binary_Search_Tree : public Binary_Tree<Item_Type>
+class Binary_Search_Tree : public morse_tree<Item_Type>
 {
 public:
 	// Constructor
-	Binary_Search_Tree() : Binary_Tree<Item_Type>() {}
+	Binary_Search_Tree() : morse_tree<Item_Type>() {}
 
 	// Public Member Functions
 	virtual bool insert(const Item_Type& item);
@@ -18,28 +18,28 @@ public:
 
 	const Item_Type* min() const;
 
-	const Item_Type* min(BTNode<Item_Type>* local_root) const;
+	const Item_Type* min(morse_node<Item_Type>* local_root) const;
 
 	const Item_Type* max() const;
 
-	const Item_Type* max(BTNode<Item_Type>* local_root) const;
+	const Item_Type* max(morse_node<Item_Type>* local_root) const;
 
 	const Item_Type* find(const Item_Type& target) const;
 private:
 
 	// Private Member Functions
-	virtual bool insert(BTNode<Item_Type>*& local_root,
+	virtual bool insert(morse_node<Item_Type>*& local_root,
 		const Item_Type& item);
 
-	virtual bool erase(BTNode<Item_Type>*& local_root,
+	virtual bool erase(morse_node<Item_Type>*& local_root,
 		const Item_Type& item);
 
-	const Item_Type* find(BTNode<Item_Type>* local_root,
+	const Item_Type* find(morse_node<Item_Type>* local_root,
 		const Item_Type& target) const;
 
 	virtual void replace_parent(
-		BTNode<Item_Type>*& old_root,
-		BTNode<Item_Type>*& local_root);
+		morse_node<Item_Type>*& old_root,
+		morse_node<Item_Type>*& local_root);
 
 }; // End binary search tree
 
@@ -50,7 +50,7 @@ const Item_Type* Binary_Search_Tree<Item_Type>::min() const {
 }
 
 template<typename Item_Type>
-const Item_Type* Binary_Search_Tree<Item_Type>::min(BTNode<Item_Type>* local_root) const{
+const Item_Type* Binary_Search_Tree<Item_Type>::min(morse_node<Item_Type>* local_root) const{
 	if (local_root == NULL)
 		return NULL;
 
@@ -66,7 +66,7 @@ const Item_Type* Binary_Search_Tree<Item_Type>::max() const {
 }
 
 template<typename Item_Type>
-const Item_Type* Binary_Search_Tree<Item_Type>::max(BTNode<Item_Type>* local_root) const{
+const Item_Type* Binary_Search_Tree<Item_Type>::max(morse_node<Item_Type>* local_root) const{
 	if (local_root == NULL)
 		return NULL;
 
@@ -84,7 +84,7 @@ const Item_Type* Binary_Search_Tree<Item_Type>::find(
 }
 
 template<typename Item_Type>
-const Item_Type* Binary_Search_Tree<Item_Type>::find(BTNode<Item_Type>* local_root, const Item_Type& target) const {
+const Item_Type* Binary_Search_Tree<Item_Type>::find(morse_node<Item_Type>* local_root, const Item_Type& target) const {
 		if (local_root == NULL)
 			return NULL;
 		if (target < local_root->data)
@@ -100,10 +100,24 @@ bool Binary_Search_Tree<Item_Type>::insert(const Item_Type& item) {
 		return insert(this->root, item);
 }
 
+
+//Add functionality to add based on morse code values
+//Add dummy nodes if you run into NULL nodes
 template<typename Item_Type>
-bool Binary_Search_Tree<Item_Type>::insert(BTNode<Item_Type>*& local_root,const Item_Type& item) {
-		if (local_root == NULL) {
-			local_root = new BTNode<Item_Type>(item);
+bool Binary_Search_Tree<Item_Type>::insert(morse_node<Item_Type>*& local_root, const morse_node& item) { //item is the node we're creating
+	//start at root
+	//iterate through morse code values
+	//if . go left
+	//if - go right
+	//if we've reached the final destination, place the object
+		//if we're replacing a dummy node, assign its subtrees to the new object
+		//else, initialize node with NULL subtrees
+	//else, check if dummy node
+		//if not dummy node, create one and continue
+	//
+	
+	if (local_root == NULL) {
+			local_root = new morse_node<Item_Type>(item); 
 			return true;
 		}
 		else {
@@ -123,7 +137,7 @@ bool Binary_Search_Tree<Item_Type>::erase(const Item_Type& item) {
 }
 
 template<typename Item_Type>
-bool Binary_Search_Tree<Item_Type>::erase(BTNode<Item_Type>*& local_root, const Item_Type& item) {
+bool Binary_Search_Tree<Item_Type>::erase(morse_node<Item_Type>*& local_root, const Item_Type& item) {
 	if (local_root == NULL) {
 		return false;
 	}
@@ -133,7 +147,7 @@ bool Binary_Search_Tree<Item_Type>::erase(BTNode<Item_Type>*& local_root, const 
 		else if (local_root->data < item)
 			return erase(local_root->right, item);
 		else {
-			BTNode<Item_Type>* old_root = local_root;
+			morse_node<Item_Type>* old_root = local_root;
 			if (local_root->left == NULL) {
 				local_root = local_root->right;
 			}
@@ -150,7 +164,7 @@ bool Binary_Search_Tree<Item_Type>::erase(BTNode<Item_Type>*& local_root, const 
 }
 
 template<typename Item_Type>
-void Binary_Search_Tree<Item_Type>::replace_parent(BTNode<Item_Type>*& old_root, BTNode<Item_Type>*& local_root) {
+void Binary_Search_Tree<Item_Type>::replace_parent(morse_node<Item_Type>*& old_root, morse_node<Item_Type>*& local_root) {
 		if (local_root->right != NULL) {
 			replace_parent(old_root, local_root->right);
 		}
