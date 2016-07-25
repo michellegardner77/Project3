@@ -4,13 +4,15 @@
 #include <map>
 
 using namespace std;
+map <char, string> codeKeys;
+map<char, string> ::iterator itr;
+string code;
+char letter;
 
 int mapFile() {
-	map <char, string> codeKeys;
-	map<char, string> ::iterator itr;
+	
 
-	string code;
-	char letter;
+
 	ifstream reader("morse.txt"); // input file stream reader to read the characters char letter
 	if (!reader) {
 		cout << "Error opening file: " << endl;
@@ -36,11 +38,9 @@ int mapFile() {
 //method to iterate through the morse code from the text file and determine left or right
 int parse_code()
 {
-	map <char, string> codeKeys;
-	map<char, string> ::iterator itr;
 
-	string code;
-	char letter;
+
+
 	ifstream reader("morse.txt"); // input file stream reader to read the characters char letter
 	if (!reader) {
 		cout << "Error opening file: " << endl;
