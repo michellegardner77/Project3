@@ -6,27 +6,40 @@
 using namespace std;
 
 // A node for Binary Tree
-template<typename Item_Type>
 struct morse_node
 {
 	// Data Fields
-	char alpha; //letter
-	string morse; //morse code
-	morse_node<Item_Type>* left;
-	morse_node<Item_Type>* right;
+	char alpha = '!'; //letter
+	//string morse; //morse code
+	morse_node* left;
+	morse_node* right;
 
 	// Constructor
-	morse_node(const Item_Type& the_data,
-		morse_node<Item_Type>* left_val = NULL,
-		morse_node<Item_Type>* right_val = NULL) :
-		data(the_data), left(left_val), right(right_val) {}
+	//morse_node();
+
+	morse_node(char a = '!', morse_node* l = NULL, morse_node* r = NULL) : alpha(a), left(l), right(r) {}
+	//morse_node(string morse_value, const char& a = '!', morse_node* left_val = NULL, morse_node* right_val = NULL) : morse(morse_value), alpha(a), left(left_val), right(right_val) {}
+
 
 	// Destructor (to avoid warning message)
 	virtual ~morse_node() {}
 
 	// to_string
-	virtual string to_string() const { ostringstream os; os << data; return os.str(); }
+	//virtual string to_string() const { ostringstream os; os << data; return os.str(); }
 
+	//string get_morse()
+	//{return morse;}
+
+	char get_alpha()
+	{return alpha;}
+
+	//void set_morse(string m)
+	//{morse = m; }
+
+	void set_alpha(char a)
+	{
+		alpha = a;
+	}
 };
 
 #endif

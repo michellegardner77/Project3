@@ -3,91 +3,239 @@
 #include <string>
 #include <iostream>
 #include <map>
-#include "MorseNode.h"
+//#include "MorseNode.h"
 //#include <except>
 
 
 using namespace std;
 
-// ** follow's bpeterman's code on github ** 
+// ** follows bpeterman's code on github ** 
 // ** Along with Kuhail's slides **
-
-// Declare tree
-//Tree<string> morse_tree;
-
-//method to read in from a file and assemble the tree
-//void bulid_Tree();
-
-// translates code
-//void decoding(string d);
-
-// translates code
-//void encoding(string message);
-
 template<typename T>
 class morse_tree
 {
+private:
+	struct morse_node
+	{
+		int index;
+		string alpha;
+		string code;
+		string morse;
+		morse_node *left;
+		morse_node *right;
+		morse_node(int i, string a, string m, morse_node *l, morse_node *r) : index(i), alpha(a), morse(m), left(l), right(r) {}
+	};
+	morse_node *root;
 public:
+	morse_tree():root(NULL){}
 
-	//Construct a binary tree with two subtrees
-	morse_tree(const Item_Type& the_data,
-		const morse_tree<Item_Type>& left_child = morse_tree(),
-		const morse_tree<Item_Type>& right_child = morse_tree()) :
-		root(new morse_node<Item_Type>(the_data, left_child.root, right_child.root)) {}
+	morse_tree(int i, string a, string m) {
+		root = new morse_node(i, a, m, nullptr, nullptr);
+	}
 
-	virtual ~morse_tree() {}
+	~morse_tree() {}
 
-	//root "head" pointer for entire tree
-	//tree_node *root;
+	//Construct an empty morse tree
+	//morse_tree() : root(NULL) {}
+	//Construct a binary tree
+	//morse_tree(char alpha, morse_tree left = morse_tree(), morse_tree right = morse_tree()) : root(new morse_node(alpha, left.root, right.root)) {}
 
-	morse_tree<Item_Type> get_left_subtree() const;
+
+
+	void insert(morse_node* r, int index, string alpha, string morse) {
+		if (r->index == index)
+			return;
+
+		if (r->index > index) {
+			if (r->left == nullptr)
+				r->left = new morse_node(index, alpha, morse, nullptr, nullptr);
+			else
+				insert(r->left, index, alpha, morse);
+		}
+		else {
+			if (r->right == nullptr)
+				r->right = new morse_node(index, alpha, morse, NULL, NULL);
+			else
+				insert(r->right, index, alpha, morse);
+		}
+	}
+
+	// wrapper method for recursive tree insert method
+	void insert(int index, string alpha, string morse) {
+		if (root == nullptr)
+			root = new morse_node(index, alpha, morse, NULL, NULL);
+		else
+			insert(root, index, alpha, morse);
+	}
+
+
+	char convert_to_alpha(string m)
+	{
+		if (r->index == morse)
+			return r->alpha;
+
+		if (r->index > index) {
+			if (r->left == nullptr)
+				r->left = new morse_node(index, alpha, morse, morse_overlay, nullptr, nullptr);
+			else
+				insert(r->left, index, alpha, morse, morse_overlay);
+		}
+		else {
+			if (r->right == nullptr)
+				r->right = new morse_node(index, alpha, morse, morse_overlay, nullptr, nullptr);
+			else
+				insert(r->right, index, alpha, morse, morse_overlay);
+		}
+	}
+
+
+
+	/*
+	string decode(string message) {
+		string result = "";
+		tree_node* current = root;
+		char letter[4] = " .-";
+
+		for (int i = 0; i <= message.size(); i++){
+			if (message.size() == i){
+				result += current->morse_overlay;
+			}
+
+			else if (message[i] == letter[0]){
+				result += current->morse_overlay;
+				current = root;
+				if (message[i + 1] == letter[0]){
+					result += " ";
+					i++;
+				}
+			}
+			else if (message[i] == message[1]){
+				if (current->right != nullptr && current->left != nullptr)
+					current = current->right;
+			}
+			else if (message[i] == letter[2]){
+				if (current->right != nullptr && current->left != nullptr)
+					current = current->left;
+			}
+		}
+		return result;
+	}
+	*/
+
+
+
+
+
+
+
+
+
+
+
+
+	morse_tree()
+	{
+		root = NULL;
+	}
+
+	void insert(char letter, string code)
+	{
+		morse_node *r = root;
+		if (r != NULL)
+		{
+			for (int i = 0; i < code.length(); i++)
+			{
+				if (code[i] == '.')
+				{
+					if (r->left)
+						r = r->left;
+					else
+					{
+						insert(r->left, letter, code);
+
+						// todo: code to bind a new node to r->left
+						break;
+					}
+				}
+				else // its always either '.' or '-' so there is no need to double check the symbol here
+				{
+					if (r->right)
+						r = r->right;
+					else
+					{
+						insert(r->right, letter, code);
+						// todo: code to bind a new node to r->right
+						break;
+					}
+				}
+			}
+			insert(r, letter, code);
+		}
+		else insert(root, letter, code);
+	}
+
+
+	void insert(morse_node*& local_root, char letter, string code) //item is the node we're inserting
+	{
+		if (local_root == NULL)
+		{
+			cout << "Inserted letter: " << letter << " at position: " << code << endl;
+			//create a new morse tree with the local_root as the root
+			local_root = new morse_node;
+			local_root->letter = letter;
+			local_root->code = code;
+			local_root->left = local_root->right = NULL;
+		}
+	}
+
+	//root(new BTNode<Item_Type>(the_data, left_child.root, right_child.root))
+	// morse_node first = morse_node('!', NULL, NULL));
+
+};
+	//morse_tree(map<char,string> code_keys); //creates morse_tree with values
+
+	//virtual ~morse_tree() {}
+
+	//morse_node get_left_subtree();
 
 	/** Return the right subtree. */
-	morse_tree<Item_Type> get_right_subtree() const;
+	//morse_node get_right_subtree();
 
-	bool isBinarySearch();
+	//bool isBinarySearch();
 
-	void isBinarySearch(morse_node<Item_Type>* local_root, bool& result);
+	//void isBinarySearch(morse_node* local_root, bool& result);
 
 	// Return the data field of the root.
-	const Item_Type& get_data() const;
-
+	//const <Item_Type>& get_data() const;
+/*
 	// Indicate that this is the empty tree. 
 	bool is_null() const;
 
-	// Indicate that this tree is a leaf. 
-	bool is_leaf() const;
+	/** Read a binary tree 
+	static morse_tree read_binary_tree(std::istream& in);
 
-	/** Return a string representation of this tree. */
-	virtual std::string to_string() const;
+	//void insert(char letter, string code);
 
-	/** Read a binary tree */
-	static morese_tree<Item_Type> read_binary_tree(std::istream& in);
+	//void insert(morse_node*& local_root, morse_node& item, string path, string current_location);
 
-	void read_tree(std::vector<std::string>& text);
+	bool search(morse_node item);
 
-	morse_tree<Item_Type> read_binary_tree(std::vector<std::string>& text, int& i);
+	//given morse code, traverses binary tree, returns alpha value
+	char convert_to_alpha (string m);
+	
+	*/
+	//void read_tree(std::vector<std::string>& text);
 
-	/** Return a string representation of the root */
+	//morse_tree read_binary_tree(std::vector<std::string>& text, int& i);
+
+	/** Return a string representation of the root 
 	std::string root_to_string() const {
 		return root->to_string();
 	}
+	*/
 
 
-	/** Return a pre-order traversal of the tree */
-	std::string pre_order() const {
-		return pre_order(root);
-	}
-
-	/** Return a post-order traversal of the tree */
-	std::string post_order() const {
-		return post_order(root);
-	}
-
-	std::string in_order() const {
-		return in_order(root);
-	}
-
+	/*
 	int height() const {
 		if (is_null()) return 0;
 		return 1 + std::max(get_left_subtree().height(), get_right_subtree().height());
@@ -98,238 +246,172 @@ public:
 		return 1 + get_left_subtree().number_of_nodes()
 			+ get_right_subtree().number_of_nodes();
 	}
+	*/
 
-protected:
 
+	//protected::
 	// Protected constructor
 	/** Construct a Binary_Tree with a given node as the root */
-	Binary_Tree(morse_node<Item_Type>* new_root) : root(new_root) {}
+	//morse_tree(morse_node* new_root) : root(new_root) {}
 
 	// Data Field
-	morse_node<Item_Type>* root;
-
-private:
-
-	std::string pre_order(const morse_node<Item_Type>* local_root) const;
-
-	std::string post_order(const morse_node<Item_Type>* local_root) const;
-
-	std::string in_order(const morse_node<Item_Type>* local_root) const;
-};
 
 
 
 
 
-
-
-
-
-
-
-
-
-template<typename Item_Type>
-void morse_tree<Item_Type>::setRoot(morse_node<Item_Type>* new_root) {
-
-	root = new_root;
-}
-template<typename Item_Type>
-morse_node<Item_Type>* morse_tree<Item_Type>::getRoot() {
-
-	return root;
-}
-
-// Overloading the ostream insertion operator.
-template<typename Item_Type>
-std::ostream& operator<<(std::ostream& out,
-	const morse_tree<Item_Type>& tree)
-{
-	return out << tree.to_string();
-}
-
-// Overloading the istream extraction operator
-template<typename Item_Type>
-std::istream& operator>>(std::istream& in,
-	morse_tree<Item_Type>& tree)
-{
-	tree = morse_tree<Item_Type>::read_binary_tree(in);
-	return in;
-}
 
 
 // Implementation of member functions
 // Accessors
-/** Return the left-subtree. */
-template<typename Item_Type>
-morse_tree<Item_Type>
-morse_tree<Item_Type>::get_left_subtree() const {
+/** Return the left-subtree. 
+morse_node morse_tree::get_left_subtree() {
 	if (root == NULL) {
 		throw std::invalid_argument("get_left_subtree on empty tree");
 	}
-	return morse_tree<Item_Type>(root->left);
+	return (*root->left);
 }
 
 
-/** Return the right-subtree */
-template<typename Item_Type>
-morse_tree<Item_Type>
-morse_tree<Item_Type>::get_right_subtree() const {
+/** Return the right-subtree 
+morse_node morse_tree::get_right_subtree(){
 	if (root == NULL) {
 		throw std::invalid_argument("get_right_subtree on null tree");
 	}
-	return morse_tree<Item_Type>(root->right);
+	return (*root->right);
 }
-
-/** Return the data field of the root
-@throws std::invalid_argument if null tree
 */
-template<typename Item_Type>
-const Item_Type& morse_tree<Item_Type>::get_data() const {
-	if (root == NULL) {
-		throw std::invalid_argument("get_data on null tree");
+/*
+bool morse_tree::search(morse_node*& local_root, morse_node& item, string current_location)
+{
+	if (item == NULL)
+	{
+		return false;
 	}
-	return root->data;
+	if ((*local_root).morse == current_position) //if morse code is equal to the value of the current node
+	{
+		current_position = "0";
+		return item;
+	}
+	while (!morse.empty())
+	{
+		if (morse[0] == '.') //if next value is .
+		{
+			morse.erase(0, 1);
+			current_position += '.';
+			return search(morse, current_position, item->left);
+		}
+		else
+		{
+			morse.erase(0, 1);
+			current_position += '_';
+			return search(morse, current_position, item->left); //next value is _
+		}
+	}
+	
+	//else return NULL;
 }
 
-template<typename Item_Type>
-bool morse_tree<Item_Type>::is_null() const {
-	return root == NULL;
+
+void morse_tree::insert_node(morse_node*& local_root, morse_node& item)
+{
+	char current = item.alpha;
+	insert(local_root, item, current);
+
 }
 
-/** Indicate that this tree is a leaf. */
-template<typename Item_Type>
-bool morse_tree<Item_Type>::is_leaf() const {
-	if (root != NULL) {
-		return root->left == NULL && root->right == NULL;
+void morse_tree::insert(char letter, string code)
+{
+	morse_node *r = root;
+	if (r != NULL)
+	{
+		for (int i = 0; i < code.length(); i++)
+		{
+			if (code[i] == '.')
+			{
+				if (r->left)
+					r = r->left;
+				else
+				{
+					r->left = new morse_node(letter);
+					// todo: code to bind a new node to r->left
+					break;
+				}
+			}
+			else // its always either '.' or '-' so there is no need to double check the symbol here
+			{
+				if (r->right)
+					r = r->right;
+				else
+				{
+					r->right = new morse_node(letter);
+					// todo: code to bind a new node to r->right
+					break;
+				}
+			}
+		}
+		insert(r, letter, code);
 	}
-	else
+	else insert(root, letter, code);
+	}
+}
+
+void morse_tree::insert(morse_node*& local_root, char letter, string code) //item is the node we're inserting
+{ 
+	if (local_root == NULL)
+	{
+		//create a new morse tree with the local_root as the root
+		local_root = new morse_node(letter);
+		local_root->left = local_root->right = NULL;
+	}
+
+	if () //if morse code is equal to the value of the current node
+	{
+		(*local_root).set_alpha(item.get_alpha());
+		cout << "Inserted letter: " << (*local_root).get_alpha() << " at position: " << current_location << endl;
+		current_location = "";
 		return true;
-}
-
-/** Return a string representation of this tree */
-template<typename Item_Type>
-std::string morse_tree<Item_Type>::to_string() const {
-	std::ostringstream os;
-	if (is_null())
-		os << "NULL\n";
-	else {
-		os << *root << '\n';
-		os << get_left_subtree().to_string();
-		os << get_right_subtree().to_string();
 	}
-	return os.str();
-}
 
-/*string_tokenizer st(line, "+ ");
-while (st.has_more_tokens()) {
-string term = st.next_token();*/
-
-template<typename Item_Type>
-void morse_tree<Item_Type>::read_tree(std::vector<std::string>& text) {
-	int i = 0;
-	morse_tree<Item_Type> newTree = read_binary_tree(text, i);
-	setRoot(newTree.getRoot());
-}
-
-
-
-template<typename Item_Type>
-morse_tree<Item_Type> morse_tree<Item_Type>::
-read_binary_tree(std::vector<std::string>& text, int& i) {
-
-	if (i>text.size() - 1 || text[i] == "NULL") {
-		return morse_tree<Item_Type>();
-	}
-	else {
-		std::string txt = text[i];
-		//i = i + 1;
-		morse_tree<Item_Type> left = read_binary_tree(text, ++i);
-		//i = i + 1;
-		morse_tree<Item_Type> right = read_binary_tree(text, ++i);
-		return morse_tree<Item_Type>(txt, left, right);
-	}
-}
-
-template<typename Item_Type>
-morse_tree<Item_Type> morse_tree<Item_Type>::
-read_binary_tree(std::istream& in) {
-	std::string next_line;
-	getline(in, next_line);
-	if (next_line == "NULL") {
-		return morse_tree<Item_Type>();
-	}
-	else {
-		Item_Type the_data;
-		std::istringstream ins(next_line);
-		ins >> the_data;
-		morse_tree<Item_Type> left = read_binary_tree(in);
-		morse_tree<Item_Type> right = read_binary_tree(in);
-		return morse_tree<Item_Type>(the_data, left, right);
-	}
-}
-
-
-
-
-/** Return a pre-order traversal of the tree */
-template<typename Item_Type>
-std::string morse_tree<Item_Type>::pre_order(const morse_node<Item_Type>* local_root) const {
-	std::string result;
-	if (local_root != NULL) {
-		result += local_root->to_string();
-		if (local_root->left != NULL) {
-			result += " ";
-			result += pre_order(local_root->left);
+	while (!morse_location.empty()) //while not the correct location
+	{
+		//search(morse_location, "", local_root);
+		//morse_location.erase(0, 1);
+		/*
+		read the given file, iterate through it line by line, for each character, iterate through the code, 
+		if the character is a dot, go left.
+		If as you go left, you hit a NULL(because the node hasn't been built yet), go ahead and a build a dummy node. 
+		Otherwise, keep going. 
+		If the character is a dash, go right. 
+		Eventually you will have reached the location for the node to insert. You go ahead and insert it then.
+		
+		if (morse_location.front() == '.')
+		{
+			morse_location.erase(0, 1); //prepare next location to find
+			current_location.append("."); //keep track of current location for next iteration
+			//cout << item.get_alpha() << " going left" << endl;
+			//cout << "morse location: " << morse_location << endl;
+			morse_tree::insert(local_root->left, item, morse_location, current_location); //go left
 		}
-		if (local_root->right != NULL) {
-			result += " ";
-			result += pre_order(local_root->right);
+		else //(morse_location.front() == '_')
+		{
+			morse_location.erase(0, 1);
+			current_location.append("_");
+			//cout << item.get_alpha() << " going right" << endl;
+			//cout << "morse location: " << morse_location << endl;
+			morse_tree::insert(local_root->right, item, morse_location, current_location); //go right
 		}
 	}
-	return result;
+	//string test;
+	//(*local_root).set_morse(item.get_morse());
+	//(*local_root).set_alpha(item.get_alpha());
+	//cout << "Inserted letter: " << (*local_root).get_alpha() << " at position: " << current_location << endl;
+	//cin >> test;
+	//delete[item];
+	//return true;
+
 }
-
-
-/** Return a post-order traversal of the tree */
-template<typename Item_Type>
-std::string morse_tree<Item_Type>::post_order(const morse_node<Item_Type>* local_root) const {
-	std::string result;
-	if (local_root != NULL) {
-		if (local_root->left != NULL) {
-			result += post_order(local_root->left);
-			result += " ";
-		}
-		if (local_root->right != NULL) {
-			result += post_order(local_root->right);
-			result += " ";
-		}
-		result += local_root->to_string();
-	}
-	return result;
-}
-
-
-/** Return an in-order traversal of the tree */
-template<typename Item_Type>
-std::string morse_tree<Item_Type>::in_order(const morse_node<Item_Type>* local_root) const {
-	std::string result;
-	if (local_root != NULL) {
-		result += "(";
-		if (local_root->left != NULL) {
-			result += in_order(local_root->left);
-			result += " ";
-		}
-		result += local_root->to_string();
-		if (local_root->right != NULL) {
-			result += " ";
-			result += in_order(local_root->right);
-		}
-		result += ")";
-	}
-	return result;
-}
-
+	//return false;
 
 
 
