@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// A node for Binary Tree
+// A node for morse_tree
 struct morse_node
 {
 	// Data Fields
@@ -17,8 +17,8 @@ struct morse_node
 	// Constructor
 	//morse_node();
 
-	morse_node(char a = '!', morse_node* l = NULL, morse_node* r = NULL) : alpha(a), left(l), right(r) {}
-	//morse_node(string morse_value, const char& a = '!', morse_node* left_val = NULL, morse_node* right_val = NULL) : morse(morse_value), alpha(a), left(left_val), right(right_val) {}
+	//morse_node(char a = '!', morse_node* l = NULL, morse_node* r = NULL) : alpha(a), left(l), right(r) {}
+	morse_node(const char& a = '!', morse_node* left_val = NULL, morse_node* right_val = NULL) : alpha(a), left(left_val), right(right_val) {}
 
 
 	// Destructor (to avoid warning message)
@@ -27,19 +27,11 @@ struct morse_node
 	// to_string
 	//virtual string to_string() const { ostringstream os; os << data; return os.str(); }
 
-	//string get_morse()
-	//{return morse;}
-
 	char get_alpha()
 	{return alpha;}
 
-	//void set_morse(string m)
-	//{morse = m; }
-
 	void set_alpha(char a)
-	{
-		alpha = a;
-	}
+	{alpha = a;}
 };
 
 #endif

@@ -12,10 +12,9 @@
 
 using namespace std;
 
-//morse_node* root = new morse_node("");
 map <char, string> codeKeys;
 map <char, string> ::iterator itr;
-morse_tree<string> tree;
+morse_tree tree;
 string morse;
 char letter;
 string test;
@@ -26,6 +25,8 @@ int map_file();
 int parse_code();
 void encode_string(string s);
 void decode_string(string morse);
+void decode_character(morse_node*& local_root, string path);
+//void decode_string(string morse);
 
 int main()
 {
@@ -37,6 +38,17 @@ int main()
 	//cin >> test;
 }
 
+void decode_string(string morse)
+{
+	cout << "The decoded message <" << morse << "> is: " << endl << endl;
+	//for each separation of " "'s 
+	while (!morse.empty())
+	{
+		decode_character(tree.root, morse.substr(0, morse.find(' ')));
+		morse.erase(0, morse.find(" ") +1);
+	}
+	cin >> test;
+}
 
 
 int map_file() {
@@ -64,7 +76,7 @@ int map_file() {
 	}
 
 }
-void insert(int index, string alpha, string encode_morse);
+
 //method to iterate through the morse code from the text file and determine left or right
 int parse_code()
 {
@@ -78,7 +90,8 @@ int parse_code()
 		while (reader >> letter >> morse)
 		{
 			codeKeys[letter] = morse;
-			tree.insert(letter, morse);
+			morse_node item = morse_node(letter);
+			tree.insert(tree.root, item, morse);
 			//cin >> test;
 			for (unsigned i = 0; i < morse.length(); i++)
 			{
@@ -117,37 +130,22 @@ void encode_string(string message)
 
 }
 
-void construct_tree()
-{
-	//create morse_nodes for each value given in the text file
-	//insert each node into the morse_tree
-	//morse_node item;
-	//string path = "";
-	//tree.insert(root, item, path, item.get_morse());
-}
 
-string decode_string(string morse)
+
+void decode_character(morse_node*& local_root, string path)
 {
-	string result;
-	//expects a binary tree to already exist
-	//traverse through the binary tree based on given morse code values. Delimiter is space
-	//if the location matches the morse string, append the letter to the message.
-	//remove the morse value for the letter that was appended.
-	//print out the resulting message
-	cout << "The decoded message <" << morse << "> is: " << endl << endl;
-	while (!morse.empty())
+	if (path.empty()) //if we're in the correct position
 	{
-		char current_letter = tree.convert_to_alpha(morse[0, morse.find(" ")]);
-		//pull string of first morse code value, until space
-		
-		//morse_node* current = tree->*root;
-
-		cout << (current_letter);
-		morse.erase(0, morse.find(" "));
-
-
+		cout << (*local_root).alpha;
+		return;
 	}
-	cout << endl << endl;
-	
+	if (path[0] == '.') //if next value is .
+	{
+		return decode_character(local_root->left, path.substr(1));
+	}
+	else //if next value is _
+	{
+		return decode_character(local_root->right, path.substr(1));
+	}
 }
 
